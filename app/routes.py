@@ -24,7 +24,8 @@ def home():
     return render_template("form.html",messages=messages)
 @main.route("/submit", methods=["POST"])
 def submit():
-    ip = request.headers.get('X-Forwarded-For', request.remote_addr)
+    mix_ip = request.headers.get('X-Forwarded-For', request.remote_addr)
+    ip = mix_ip.split(",")[0].strip()
     ua = request.user_agent
     ip_hash = get_hash(ip, str(ua))
     ppp = requests.get(f"http://ip-api.com/json/{ip}")
