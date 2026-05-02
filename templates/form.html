@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+       /* Minimal voting form — warm neutrals + deep forest green accent
+   Palette built for trust: muted, grounded, no blue, no purple/pink. */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg: #f6f4ef;            /* warm off-white */
+  --surface: #ffffff;
+  --ink: #1c1d1a;           /* near-black, slightly warm */
+  --ink-soft: #5b5e57;      /* muted text */
+  --line: #e6e3da;          /* hairline borders */
+  --line-strong: #d3cfc2;
+  --accent: #2f5d3a;        /* deep forest green — trust */
+  --accent-hover: #244a2e;
+  --accent-soft: #ecf1ec;   /* tinted chip background */
+  --danger: #8a3324;        /* earthen red */
+  --radius: 8px;
+  --radius-sm: 6px;
+  --shadow: 0 1px 2px rgba(28, 29, 26, 0.04);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 20px;
+  flex-direction: column;
+}
+
+/* Optional flash message */
+.message {
+  max-width: 520px;
+  width: 100%;
+  margin: 20px 0px;
+  padding: 12px 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-sm);
+  color: var(--danger);
+  font-size: 14px;
+}
+
+/* Form card */
+#voting-form {
+  width: 100%;
+  max-width: 520px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 32px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Optional title if you ever add one */
+#voting-form > h1,
+#voting-form > h2 {
+  margin: 0 0 4px;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* Fieldsets */
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+legend {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* Hide raw radios, style the labels as chips */
+fieldset input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;;
+}
+
+fieldset input[type="radio"] + label {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  font-size: 16px;
+  color: var(--ink);
+  background: var(--surface);
+  cursor: pointer;
+  gap: 10px;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+  user-select: none;
+}
+
+fieldset input[type="radio"] + label:hover {
+  border-color: var(--ink-soft);
+}
+
+fieldset input[type="radio"]:checked + label {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 500;
+}
+
+fieldset input[type="radio"]:focus-visible + label {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Generic inputs / selects (in case you add any) */
+input[type="text"],
+input[type="email"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  padding: 10px 12px;
+  font: inherit;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.15s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%235b5e57' stroke-width='1.5' d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+
+/* Submit button */
+#submitBtn {
+  margin-top: 4px;
+  padding: 12px 18px;
+  font: inherit;
+  font-weight: 500;
+  color: #fff;
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+#submitBtn:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+#submitBtn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+#submitBtn:active { transform: translateY(1px); }
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--ink);
+  color: var(--bg);
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.toast.error { background: var(--danger); }
+
+/* Mobile */
+@media (max-width: 480px) {
+  body { padding: 24px 14px; }
+  #voting-form { padding: 22px; gap: 20px; }
+}
+.party-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+    </style>
+</head>
+<body>
+   
+    
+
+    {% if message %}
+    <div class="message" id="message">{{ message }}</div>
+    {% endif %}
+    <form action="/submit" method="POST" id="voting-form" onsubmit="return validateForm()">
+         <h1>Survey for WB Elections</h1>
+        <fieldset class="Voting party" id="voting-party">
+        <legend>Which party you voted for?:</legend>
+            <input type="radio" id="aitc+" name="vote" value="aitc+" />
+            <label for="aitc+"><img src="https://upload.wikimedia.org/wikipedia/commons/5/50/All_India_Trinamool_Congress_logo.svg" class="party-icon">AITC+</label>
+            <input type="radio" id="bjp" name="vote" value="bjp" />
+            <label for="bjp"><img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Logo_of_the_Bharatiya_Janata_Party.svg" class="party-icon">BJP</label>
+            <input type="radio" id="inc" name="vote" value="inc" />
+            <label for="inc"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Indian_National_Congress_hand_logo.svg" class="party-icon">INC</label>
+            <input type="radio" id="left-front+" name="vote" value="left front+" />
+            <label for="left-front+"><img src="https://upload.wikimedia.org/wikipedia/commons/7/7a/CPI_symbol.svg" class="party-icon">Left Front+</label>
+        </fieldset>
+        <div class="age">
+        <label for="age-select">Choose Age Group:</label>
+        <select name="age_group" id="age_group">
+        <option value="" selected hidden>--Please choose an option--</option>
+        <option value="18-25">18-25</option>
+        <option value="26-39">26-39</option>
+        <option value="40+">40+</option>
+        </select>
+        </div>
+        <div class="district">
+        <label for="district-select">Choose District:</label>
+        <select name="district" id="district-select">
+        <option value="" selected hidden>--Please choose an option--</option>
+        </select>
+        </div>
+        <fieldset class="gender" id="gender">
+        <legend>Whats your gender ?</legend>
+            <input type="radio" id="male" name="gender" value="male" checked />
+            <label for="male">Male</label>
+            <input type="radio" id="female" name="gender" value="female" />
+            <label for="female">Female</label>
+            <input type="radio" id="other" name="gender" value="other" />
+            <label for="other">Other</label>
+        </fieldset>
+        <button type="submit" id="submitBtn">Submit</button>
+    </form>
+   
+<div id="toast" class="toast"></div>    
+</body>
+
+
+
+<script>
+    function validateForm() {
+    const district = document.getElementById("district-select").value;
+    const age_group = document.getElementById("age_group").value;
+    const gender = document.querySelector('input[name="gender"]:checked').value;
+    const vote = document.querySelector('input[name="vote"]:checked');
+    if (!vote||!district|| !age_group || !gender) {
+        console.log(district, age_group, gender)
+        showToast("Please fill all the fields!", "error");
+        return false;
+    }
+    return true;
+}
+    // Javascript to loop though districts and add them to the dropdown
+    const districts = ["Alipurduar", "Bankura", "Birbhum", "Cooch Behar", "Dakshin Dinajpur", "Darjeeling", "Hooghly", "Howrah", "Jalpaiguri", "Kalimpong", "Kolkata", "Malda", "Murshidabad", "Nadia", "North 24 Parganas", "Paschim Bardhaman", "Paschim Medinipur", "Purba Bardhaman", "Purba Medinipur", "Purulia", "South 24 Parganas", "Uttar Dinajpur"];
+    const districtSelect = document.getElementById("district-select");
+
+    districts.forEach(district => {
+        const option = document.createElement("option");
+        option.value = district;
+        option.textContent = district;
+        districtSelect.appendChild(option);
+    });
+
+
+function showToast(msg, type) {
+    const toast = document.getElementById("toast");
+    toast.innerText = msg;
+    toast.className = "toast show " + type;
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 3000);
+}
+</script>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+        {% for category, msg in messages %}
+            <script>
+                showToast("{{ msg }}", "{{ category }}");
+            </script>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+</html>
