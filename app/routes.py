@@ -11,6 +11,7 @@ def home():
     messages = get_flashed_messages(with_categories=True)
     print("Messages:", messages)
     ip = request.headers.get('X-Forwarded-For', request.remote_addr)
+    ip=ip.split(",")[0].strip()
     print("IP",ip)
     ua = request.user_agent
     ip_hash = get_hash(ip, str(ua))
