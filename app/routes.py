@@ -12,7 +12,7 @@ def home():
     print("Messages:", messages)
     mix_ip = request.headers.get('X-Forwarded-For', request.remote_addr)
     ip = mix_ip.split(",")[0].strip()
-    print("IP",ip)
+    # print("IP",ip)
     ua = request.user_agent
     ip_hash = get_hash(ip, str(ua))
     conn = get_connection()
@@ -30,7 +30,6 @@ def submit():
     ip_hash = get_hash(ip, str(ua))
     ppp = requests.get(f"http://ip-api.com/json/{ip}")
     location = "Unknown"
-    print(ppp.json())
     if ppp.status_code == 200:
         if ppp.json().get("status") == "success":
             location = ppp.json()["regionName"]
