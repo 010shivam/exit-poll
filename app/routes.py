@@ -29,6 +29,7 @@ def submit():
     ip_hash = get_hash(ip, str(ua))
     ppp = requests.get(f"http://ip-api.com/json/{ip}")
     location = "Unknown"
+    print(ppp.json())
     if ppp.status_code == 200:
         if ppp.json().get("status") == "success":
             location = ppp.json()["regionName"]
