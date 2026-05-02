@@ -2,7 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 import sqlite3
 from config import Config
 
-DB_NAME = Config.SQLALCHEMY_DATABASE_URI.replace("sqlite:///", "./instance/")
+DB_NAME = Config.SQLALCHEMY_DATABASE_URI.replace("sqlite:///", "")
 
 def get_connection():
     conn = sqlite3.connect(DB_NAME)
